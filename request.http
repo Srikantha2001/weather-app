@@ -1,0 +1,5 @@
+GET https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=72713e42648bffbf57f785add8d2eb53
+
+###
+GET http://localhost:8080/getWeather?city=delhi
+

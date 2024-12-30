@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: weather-app
+
+weather:
+  app:
+    key: 72713e42648bffbf57f785add8d2eb53
+

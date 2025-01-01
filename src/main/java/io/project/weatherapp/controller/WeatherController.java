@@ -1,5 +1,7 @@
 package io.project.weatherapp.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import io.project.weatherapp.model.WeatherResponse;
 import io.project.weatherapp.service.WeatherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +18,15 @@ public class WeatherController {
     }
 
     @GetMapping("/getWeather")
-    public ResponseEntity<String> getWeather(@RequestParam String city) {
-        String response = weatherService.getWeather(city);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<WeatherResponse> getWeather(@RequestParam String city) {
+        try {
+            WeatherResponse weatherResponse = weatherService.getWeather(city);
+            return ResponseEntity.ok(weatherResponse);
+        }
+        catch (JsonProcessingException e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

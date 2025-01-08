@@ -16,6 +16,9 @@ public class WeatherService {
     @Value("${weather.app.key}")
     private String apiKey;
 
+    @Value("${weather.app.url}")
+    private String apiUrl;
+
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
@@ -25,12 +28,12 @@ public class WeatherService {
     }
 
     public WeatherResponse getWeather(String city) throws JsonProcessingException {
-
-        String url = UriComponentsBuilder.fromUriString("https://api.openweathermap.org/data/2.5/weather")
-                .queryParam("q",city.toLowerCase())
-                .queryParam("appid", apiKey)
-                .toUriString();
+        String url = getURL(city);
         String response = restTemplate.getForObject(url, String.class);
+        return getWeatherResponse(response);
+    }
+
+    private WeatherResponse getWeatherResponse(String response) throws JsonProcessingException {
         JsonNode jsonNode = objectMapper.readTree(response);
         return WeatherResponse.builder()
                 .cityName(jsonNode.get("name").asText())
@@ -42,4 +45,13 @@ public class WeatherService {
                 .minimumTemperature(jsonNode.get("main").get("temp_min").asDouble())
                 .build();
     }
+
+    private String getURL(String city) {
+        return UriComponentsBuilder.fromUriString(apiUrl)
+                .queryParam("q", city.toLowerCase())
+                .queryParam("appid", apiKey)
+                .toUriString();
+    }
+
+
 }

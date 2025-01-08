@@ -5,4 +5,4 @@ spring:
 weather:
   app:
     key: 72713e42648bffbf57f785add8d2eb53
-
+    url: https://api.openweathermap.org/data/2.5/weather
